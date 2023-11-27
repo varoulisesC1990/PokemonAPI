@@ -1,0 +1,7 @@
+﻿Squirtle
+2000
+agua
+Ataque1|200
+Ataque2|500
+Ataque3|400
+Ataque4|300
