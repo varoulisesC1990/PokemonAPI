@@ -57,7 +57,7 @@ namespace PokemonAPI.Controllers
             }
 
 
-            if (pokemonBatalla.Life<=0)
+            if (pokemonNuevo.Life<=0)
             { 
                 var myJson = new
                 {

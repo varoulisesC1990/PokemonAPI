@@ -17,15 +17,16 @@ namespace PokemonAPI.Controllers.Tests
         [TestMethod(), TestCategory("Functional")]
         public void PokemonEstadoCorrecto()
         {
-            Pokemon pokemonCreado=  new Pokemon();
+            Pokemon pokemonCreado = new Pokemon();
             pokemonCreado.Name = "Juan";
             pokemonCreado.Type = "Agua";
             pokemonCreado.Status = "Muerto";
+            pokemonCreado.Life = 100;
 
-            PokemonController controller=new PokemonController();
+            PokemonController controller = new PokemonController();
             controller.Iniciar(pokemonCreado);
 
-            bool esCorrectoEstado = pokemonCreado.Status!= EnumHelper.GetDescription(PokemonStatus.Available);
+            bool esCorrectoEstado = pokemonCreado.Status != EnumHelper.GetDescription(PokemonStatus.Available);
 
             Assert.IsTrue(esCorrectoEstado);
         }
@@ -38,6 +39,7 @@ namespace PokemonAPI.Controllers.Tests
             pokemonCreado.Name = "Juan";
             pokemonCreado.Type = "Agua";
             pokemonCreado.Status = "Muerto";
+            pokemonCreado.Life = -2000;
 
             PokemonController controller = new PokemonController();
             controller.Iniciar(pokemonCreado);
