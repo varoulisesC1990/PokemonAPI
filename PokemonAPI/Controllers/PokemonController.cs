@@ -56,11 +56,23 @@ namespace PokemonAPI.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest, jsonString);
             }
 
+
+            if (pokemonBatalla.Life<=0)
+            { 
+                var myJson = new
+                {
+                    statusResponse = "error",
+                    message = "The life of pokemon must be greater to 0",
+                };
+
+                jsonString = JsonSerializer.Serialize(myJson);
+                return StatusCode(StatusCodes.Status400BadRequest, jsonString);
+            }
+
             if (pokemonBatalla == null)
             {
                 if (pokemonNuevo.Name == String.Empty)
                     CargarArchivoLocalPokemon(out pokemonBatalla);
-
 
                 else
                 {
@@ -118,15 +130,15 @@ namespace PokemonAPI.Controllers
 
             pokemonBatalla = new Pokemon
             {
+                Id=10000,
                 Name = nombre,
                 Life = vida,
                 Type = EnumHelper.GetDescription(PokemonType.Water),
-                //Attacks = 
-                //new PokemonAttack()
-                //    primerAtaque[0],
-                //    Convert.ToInt32(primerAtaque[1])
-                
-
+                Attacks = 
+                new PokemonAttack[] {
+                     new PokemonAttack(primerAtaque[0], Convert.ToInt32(primerAtaque[1]))
+                },
+                Status = EnumHelper.GetDescription(PokemonStatus.InBattle)
             };
 
         }
@@ -235,14 +247,33 @@ namespace PokemonAPI.Controllers
 
             if (pokemonBatalla != null)
             {
-                pokemonBatalla.Life = pokeLife.Life;
-                var myJson = new
+
+                if (pokeLife.Life < 0)
                 {
-                    status = "success",
-                    message = "Pokemon life has been modified"
-                };
-                jsonString = JsonSerializer.Serialize(myJson);
-                return StatusCode(StatusCodes.Status200OK, jsonString);
+                    var myJson = new
+                    {
+                        status = "error",
+                        message = "Error modifying Pokemon life"
+                    };
+
+                    jsonString = JsonSerializer.Serialize(myJson);
+                    return StatusCode(StatusCodes.Status400BadRequest, jsonString);
+                }
+
+                else
+                {
+                    pokemonBatalla.Life = pokeLife.Life;
+
+                    var myJson = new
+                    {
+                        status = "success",
+                        message = "Pokemon life has been modified"
+                    };
+                    jsonString = JsonSerializer.Serialize(myJson);
+                    return StatusCode(StatusCodes.Status200OK, jsonString);
+                }
+
+               
             }
 
             else
@@ -413,8 +444,6 @@ namespace PokemonAPI.Controllers
                 };
                 jsonString = JsonSerializer.Serialize(myJson);
                 return StatusCode(StatusCodes.Status200OK, jsonString);
-                //ponekmon=null;
-                //cambiar estado a available
             }
         }
 

@@ -13,7 +13,14 @@ namespace PokemonAPI.Model
         [Description("normal")]
         Normal,
         [Description("agua")]
-        Water
+        Water,
+
+        [Description("fuego")]
+        Fuego,
+        [Description("planta")]
+        Planta,
+        [Description("agua")]
+        Agua
     }
 
 
@@ -32,6 +39,19 @@ namespace PokemonAPI.Model
 
     public class Pokemon
     {
+        public Pokemon() { }
+
+        public Pokemon(int id, string name, string type,int life, PokemonAttack[] attacks, string status) 
+        {
+        
+            this.Id = id;
+            this.Name = name;
+            this.Type = type;
+            this.Attacks = attacks;
+            this.Status = status;
+            this.Life=life;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
