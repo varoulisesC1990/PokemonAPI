@@ -26,7 +26,7 @@ namespace PokemonAPI.Controllers.Tests
             PokemonController controller = new PokemonController();
             controller.Iniciar(pokemonCreado);
 
-            bool esCorrectoEstado = pokemonCreado.Status != EnumHelper.GetDescription(PokemonStatus.Available);
+            bool esCorrectoEstado = pokemonCreado.Status != EnumHelper.GetDescription(PokemonStatus.DISPONIBLE);
 
             Assert.IsTrue(esCorrectoEstado);
         }
@@ -43,7 +43,7 @@ namespace PokemonAPI.Controllers.Tests
             PokemonController controller = new PokemonController();
             controller.Iniciar(pokemonCreado);
 
-            bool esCorrectoEstado = pokemonCreado.Status == EnumHelper.GetDescription(PokemonStatus.Available);
+            bool esCorrectoEstado = pokemonCreado.Status == EnumHelper.GetDescription(PokemonStatus.DISPONIBLE);
 
             Assert.IsTrue(esCorrectoEstado);
         }
@@ -81,23 +81,5 @@ namespace PokemonAPI.Controllers.Tests
 
 
 
-        //[TestMethod, TestCategory("Functional")]
-        //public void RegistraTiqueteEnSei_ServicioOperando_NumeroTiqueteRegistrado()
-        //{
-
-        //    IEnumerable<TiqueteSei> valorEsperado()
-        //    {
-        //        yield return new TiqueteSei() { IdTiquete = ID_TIQUETE_ESPERADO, Mensaje = MENSAJE };
-        //    }
-        //    Task<IEnumerable<TiqueteSei>> s = Task.FromResult<IEnumerable<TiqueteSei>>(valorEsperado());
-
-
-        //    elTiquete.RegistreConsultaEnSeiEnAnonimoAsync(ID_PANEL, ID_CONFIGURACION).Returns(s);
-        //    TiqueteSeiController elServicioSei = new TiqueteSeiController(elTiquete);
-        //    var idTiquete = elServicioSei.RegistreConsultaEnSeiEnAnonimoAsync(ID_PANEL, ID_CONFIGURACION);
-
-        //    bool tiqueteCorrecto = idTiquete.Status != TaskStatus.Faulted;
-        //    Assert.IsTrue(tiqueteCorrecto);
-        //}
     }
 }
