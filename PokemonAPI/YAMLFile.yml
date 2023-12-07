@@ -1,0 +1,12 @@
+﻿version: '1.0'
+name: PokemonAPI
+services:
+    api:
+        container_name: POKEMONAPI
+        image: pokemonapi:dev
+        environment:
+            - ASPNETCORE_ENVIRONMENT=docker
+            - ASPNETCORE_URLS=http://+:80
+        ports:
+          - 80:80
+ 
