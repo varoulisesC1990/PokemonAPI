@@ -14,7 +14,6 @@ namespace PokemonAPI.Model
         Normal,
         [Description("agua")]
         Water,
-
         [Description("fuego")]
         Fuego,
         [Description("planta")]
@@ -26,14 +25,17 @@ namespace PokemonAPI.Model
 
     public enum PokemonStatus
     {
+
         [Description("disponible")]
-        Available,
+        DISPONIBLE,
         [Description("en-batalla")]
-        InBattle,
+        EN_BATALLA,
         [Description("atacando")]
-        Attacking,
+        ATACANDO,
         [Description("derrotado")]
-        Defeated
+        DERROTADO,
+        [Description("ganador")]
+        GANADOR
     }
 
 
