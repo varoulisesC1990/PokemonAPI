@@ -71,11 +71,10 @@ namespace PokemonAPI.Controllers
 
             if (pokemonBatalla == null)
             {
-                if (pokemonNuevo.Name == String.Empty)
-                    CargarArchivoLocalPokemon(out pokemonBatalla);
+                //if (pokemonNuevo.Name == String.Empty)
+                //    CargarArchivoLocalPokemon(out pokemonBatalla);
 
-                else
-                {
+                
                     pokemonBatalla = new Pokemon
                     {
                         Id= pokemonNuevo.Id,
@@ -83,10 +82,9 @@ namespace PokemonAPI.Controllers
                         Life = pokemonNuevo.Life,
                         Type = tipoFinal,
                         Attacks = pokemonNuevo.Attacks,
-                        Status= EnumHelper.GetDescription(PokemonStatus.InBattle)
+                        Status= EnumHelper.GetDescription(PokemonStatus.EN_BATALLA)
                     };
 
-                }
 
                 var myJson = new
                 {
@@ -109,38 +107,6 @@ namespace PokemonAPI.Controllers
                 jsonString = JsonSerializer.Serialize(myJson);
                 return StatusCode(StatusCodes.Status400BadRequest, jsonString);
             }
-
-
-            //return jsonString;
-        }
-
-        private void CargarArchivoLocalPokemon(out Pokemon pokemonBatalla)
-        {
-            var filename = Path.Combine(Environment.CurrentDirectory, @"InfoPokemon.txt");
-            string[] lines = System.IO.File.ReadAllLines(filename);
-
-
-            string nombre = lines[0];
-            int vida = int.Parse(lines[1]);
-            string clase = lines[2];
-            var primerAtaque = lines[3].Split("|");
-            var segundoAtaque = lines[4].Split("|");
-            var tercerAtaque = lines[5].Split("|");
-            var cuartoAtaque = lines[6].Split("|");
-
-            pokemonBatalla = new Pokemon
-            {
-                Id=10000,
-                Name = nombre,
-                Life = vida,
-                Type = EnumHelper.GetDescription(PokemonType.Water),
-                Attacks = 
-                new PokemonAttack[] {
-                     new PokemonAttack(primerAtaque[0], Convert.ToInt32(primerAtaque[1]))
-                },
-                Status = EnumHelper.GetDescription(PokemonStatus.InBattle)
-            };
-
         }
 
         /// <summary>
@@ -435,7 +401,9 @@ namespace PokemonAPI.Controllers
 
             else
             {
-                pokemonBatalla.Status = pokemonBatalla.Life==0 ? EnumHelper.GetDescription(PokemonStatus.Defeated) : EnumHelper.GetDescription(PokemonStatus.Available);
+                pokemonBatalla.Status = status.Victory==false && pokemonBatalla.Life==0? EnumHelper.GetDescription(PokemonStatus.DERROTADO) 
+                    : status.Victory == false && pokemonBatalla.Life == 0 ? EnumHelper.GetDescription(PokemonStatus.DISPONIBLE) 
+                    : EnumHelper.GetDescription(PokemonStatus.GANADOR);
 
                 var myJson = new
                 {
