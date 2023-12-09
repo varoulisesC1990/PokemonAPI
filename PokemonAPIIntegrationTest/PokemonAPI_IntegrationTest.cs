@@ -37,7 +37,7 @@ namespace PokemonAPIIntegrationTest
                 Url = "http://ec2-3-139-191-226.us-east-2.compute.amazonaws.com/pokemon/iniciar",
                 Body = new Pokemon
                 {
-                    Id = 50,
+                    //Id = 50,
                     Name = "Togepi",
                     Life = 8000,
                     Type = "Agua",
@@ -71,7 +71,7 @@ namespace PokemonAPIIntegrationTest
                 Url = "http://ec2-3-18-23-121.us-east-2.compute.amazonaws.com:8080/pokemon/iniciar",
                 Body = new Pokemon
                 {
-                    Id = 50,
+                    //Id = 50,
                     Name = "Togepi",
                     Life = 8000,
                     Type = "Agua",
