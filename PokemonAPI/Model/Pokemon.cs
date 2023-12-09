@@ -43,10 +43,8 @@ namespace PokemonAPI.Model
     {
         public Pokemon() { }
 
-        public Pokemon(int id, string name, string type,int life, PokemonAttack[] attacks, string status) 
+        public Pokemon(string name, string type,int life, PokemonAttack[] attacks, string status) 
         {
-        
-            this.Id = id;
             this.Name = name;
             this.Type = type;
             this.Attacks = attacks;
@@ -54,7 +52,7 @@ namespace PokemonAPI.Model
             this.Life=life;
         }
 
-        public int Id { get; set; }
+       // public int Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public int Life { get; set; }

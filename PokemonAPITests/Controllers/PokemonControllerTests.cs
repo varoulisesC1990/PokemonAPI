@@ -44,7 +44,7 @@ namespace PokemonAPI.Controllers.Tests
             PokemonController controller = new PokemonController();
             controller.Iniciar(pokemonCreado);
 
-            bool esCorrectoEstado = pokemonCreado.Status == EnumHelper.GetDescription(PokemonStatus.DISPONIBLE);
+            bool esCorrectoEstado = pokemonCreado.Status == EnumHelper.GetDescription(PokemonStatus.EN_BATALLA);
 
             Assert.IsTrue(esCorrectoEstado);
         }
@@ -94,7 +94,7 @@ namespace PokemonAPI.Controllers.Tests
 
             dynamic data = result.Value;
             Assert.IsNotNull(data);
-            Assert.AreEqual("error", data.status);
+            Assert.AreEqual("error", result.StatusCode);
             Assert.AreEqual("Error adding pokemon to the battle", data.message);
         }
 
@@ -114,7 +114,7 @@ namespace PokemonAPI.Controllers.Tests
 
             dynamic data = result.Value;
             Assert.IsNotNull(data);
-            Assert.AreEqual("success", data.status);
+            Assert.AreEqual("success", result.StatusCode);
             Assert.AreEqual("Pokemon ready to fight", data.message);
         }
 
@@ -140,11 +140,11 @@ namespace PokemonAPI.Controllers.Tests
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(StatusCodes.Status200OK, result.StatusCode);
+            Assert.AreEqual(StatusCodes.Status400BadRequest, result.StatusCode);
 
             dynamic data = result.Value;
             Assert.IsNotNull(data);
-            Assert.AreEqual("success", data.status);
+            Assert.AreEqual("success", result.StatusCode);
             // Add more assertions based on the expected output for a successful attack
         }
 

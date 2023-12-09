@@ -33,11 +33,8 @@ namespace PokemonAPI.Controllers
         /// <response code="400">Error</response>
         [HttpPut]
         [Route("pokemon/iniciar")]
-        public IActionResult Iniciar([FromBody] JsonElement body)
+        public IActionResult Iniciar(Pokemon pokemonNuevo)
         {
-            var json = body.GetRawText();
-            var pokemonNuevo = JsonConvert.DeserializeObject<Pokemon>(json);
-
             string statusResponse = String.Empty;
             string message = String.Empty;
             string data = String.Empty;
@@ -80,7 +77,6 @@ namespace PokemonAPI.Controllers
                 
                     pokemonBatalla = new Pokemon
                     {
-                        Id= pokemonNuevo.Id,
                         Name = pokemonNuevo.Name,
                         Life = pokemonNuevo.Life,
                         Type = tipoFinal,
@@ -137,7 +133,7 @@ namespace PokemonAPI.Controllers
             if (pokemonBatalla != null)
             {
                 Pokemon pokemonInfoAttack = new Pokemon();
-                pokemonInfoAttack.Id = pokemonBatalla.Id;
+               // pokemonInfoAttack.Id = pokemonBatalla.Id;
                 pokemonInfoAttack.Name = pokemonBatalla.Name;
                 pokemonInfoAttack.Type = pokemonBatalla.Type;
                 pokemonInfoAttack.Life = pokemonBatalla.Life;
@@ -148,7 +144,7 @@ namespace PokemonAPI.Controllers
 
                     var pokemonInfoCorta = new
                     {
-                        Id = pokemonInfoAttack.Id,
+                        //Id = pokemonInfoAttack.Id,
                         Name = pokemonInfoAttack.Name,
                         Type = pokemonInfoAttack.Type,
                         Life = pokemonInfoAttack.Life
