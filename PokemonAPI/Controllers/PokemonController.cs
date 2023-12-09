@@ -33,8 +33,11 @@ namespace PokemonAPI.Controllers
         /// <response code="400">Error</response>
         [HttpPut]
         [Route("pokemon/iniciar")]
-        public IActionResult Iniciar(Pokemon pokemonNuevo)
+        public IActionResult Iniciar([FromBody] JsonElement body)
         {
+            var json = body.GetRawText();
+            var pokemonNuevo = JsonConvert.DeserializeObject<Pokemon>(json);
+
             string statusResponse = String.Empty;
             string message = String.Empty;
             string data = String.Empty;

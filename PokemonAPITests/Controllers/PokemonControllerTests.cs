@@ -172,7 +172,7 @@ namespace PokemonAPI.Controllers.Tests
 
             dynamic data = result.Value;
             Assert.IsNotNull(data);
-            Assert.AreEqual("error", data.status);
+            Assert.AreEqual("error", result.StatusCode);
             // Add more assertions based on the expected output for an error
         }
 
