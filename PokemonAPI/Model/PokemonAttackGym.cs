@@ -2,8 +2,10 @@
 {
     public class PokemonAttackGym
     {
-        public int AttackId { get; set; }
-        public int PokemonId { get; set; }
+        public int attackId { get; set; }
+        public string sourcePlayerName { get; set; }
+
+        public string targetPlayerName { get; set; }
 
     }
 }

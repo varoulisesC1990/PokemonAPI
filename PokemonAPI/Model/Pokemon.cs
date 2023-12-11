@@ -6,20 +6,14 @@ namespace PokemonAPI.Model
 
     public enum PokemonType
     {
-        [Description("fuego")]
-        Fire,
-        [Description("planta")]
-        Grass,
         [Description("normal")]
-        Normal,
-        [Description("agua")]
-        Water,
+        normal,
         [Description("fuego")]
-        Fuego,
+        fuego,
         [Description("planta")]
-        Planta,
+        planta,
         [Description("agua")]
-        Agua
+        agua
     }
 
 
@@ -43,22 +37,20 @@ namespace PokemonAPI.Model
     {
         public Pokemon() { }
 
-        public Pokemon(string name, string type,int life, PokemonAttack[] attacks, string status) 
+        public Pokemon(string name, PokemonType type,double life, PokemonAttack[] attacks) 
         {
-            this.Name = name;
-            this.Type = type;
-            this.Attacks = attacks;
-            this.Status = status;
-            this.Life=life;
+            this.name = name;
+            this.type = type;
+            this.life=life;
+            this.attacks = attacks;
         }
 
-       // public int Id { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public int Life { get; set; }
-        public PokemonAttack[] Attacks { get; set; }
 
-        public string Status { get; set; }
+        // public int Id { get; set; }
+        public string name { get; set; }
+        public PokemonType type { get; set; }
+        public double life { get; set; }
+        public PokemonAttack[] attacks { get; set; }
 
     }
 }
