@@ -4,13 +4,13 @@
     {
         public PokemonAttack() { }
 
-        public PokemonAttack(string type,int power) 
+        public PokemonAttack(PokemonType type,int power) 
         {
-            this.Type = type;
-            this.Power = power;
+            this.type = type;
+            this.power = power;
         }
 
-        public string Type { get; set; }
-        public int Power { get; set; }
+        public PokemonType type { get; set; }
+        public int power { get; set; }
     }
 }
