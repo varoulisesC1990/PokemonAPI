@@ -26,8 +26,8 @@ namespace PokemonAPI.Controllers
     {
         static PlayerInformation playerBatalla;
 
-        // private static string URLGIMNASIO = "http://ec2-3-18-23-121.us-east-2.compute.amazonaws.com:8080/api/gimnasio/";
-        private static string URLGIMNASIO = "http://localhost:8080/api/gimnasio/";
+         private static string URLGIMNASIO = "http://ec2-3-18-23-121.us-east-2.compute.amazonaws.com:8080/api/gimnasio/";
+        //private static string URLGIMNASIO = "http://localhost:8080/api/gimnasio/";
 
 
         /// <summary>
