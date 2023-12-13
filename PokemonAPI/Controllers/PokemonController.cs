@@ -24,8 +24,6 @@ namespace PokemonAPI.Controllers
     [ApiVersion("1.0")]
     public class PokemonController : ControllerBase
     {
-        static PlayerInformation playerBatalla;
-
         private static string URLGIMNASIO = "http://ec2-3-18-23-121.us-east-2.compute.amazonaws.com:8080/api/gimnasio/";
         //private static string URLGIMNASIO = "http://localhost:8080/api/gimnasio/";
 
@@ -40,7 +38,7 @@ namespace PokemonAPI.Controllers
         /// <response code="400">Error</response>
         [HttpPost]
         [Route("pokemon/unirse")]
-        public IActionResult UnirseABatalla([FromBody] JsonElement body)
+        public IActionResult IniciarPokemon([FromBody] JsonElement body)
         {
 
             var json = body.GetRawText();
@@ -84,9 +82,6 @@ namespace PokemonAPI.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest, jsonString);
                 }
 
-                if (playerBatalla == null)
-                {
-                    playerBatalla = player;
                     // Act
                     //var response = Client.PutAsync(urlFinal, ContentHelper.GetStringContent(player));
                     var webRequest = new HttpRequestMessage(HttpMethod.Post, urlFinal)
@@ -101,7 +96,7 @@ namespace PokemonAPI.Controllers
                         var myJson = new
                         {
                             statusResponse = "success",
-                            message = "Pokemon attributes set successfully",
+                            message = "Pokemon attributes set successfully to gym",
                         };
 
                         jsonString = JsonSerializer.Serialize(myJson);
@@ -118,25 +113,13 @@ namespace PokemonAPI.Controllers
                         jsonString = JsonSerializer.Serialize(myJson);
                         return StatusCode(StatusCodes.Status400BadRequest, jsonString);
                     }
-                }
-
-                else
-                {
-                    //playerBatalla = null;
-                    var myJson = new
-                    {
-                        statusResponse = "error",
-                        message = "The pokemon attributtes cannot be set because it is in battle",
-                    };
-
-                    jsonString = JsonSerializer.Serialize(myJson);
-                    return StatusCode(StatusCodes.Status400BadRequest, jsonString);
-                }
+                
+               
 
             }
             catch (Exception ex)
             {
-                playerBatalla = null;
+               
                 var myJson = new
                 {
                     statusResponse = "error",
@@ -160,7 +143,7 @@ namespace PokemonAPI.Controllers
         /// <response code="400">Error</response>
         [Route("pokemon/iniciar")]
         [HttpPost]
-        public IActionResult IniciarGimnasio()
+        public IActionResult IniciarBatalla()
         {
             string urlFinal = URLGIMNASIO + "iniciar";
             HttpClient client = new HttpClient();
@@ -274,7 +257,7 @@ namespace PokemonAPI.Controllers
                     var myJson = new
                     {
                         status = "error",
-                        message = "Pokemon or attack not valid"
+                        message = "Pokemon or attack not valid or not is your turn"
                     };
                     jsonString = JsonSerializer.Serialize(myJson);
                     return StatusCode(StatusCodes.Status400BadRequest, jsonString);
@@ -295,68 +278,7 @@ namespace PokemonAPI.Controllers
         }
 
 
-        /// <summary>
-        /// Change Pokemon life.
-        /// </summary>
-        /// <returns>Get pokemon new life</returns>
-        /// <remarks>
-        /// </remarks>
-        /// <response code="200">Returns success state</response>
-        /// <response code="400">Error</response>
-        [Route("pokemon/editar-vida")]
-        [HttpPut]
-        public IActionResult EditarVida(Pokemon pokeLife)
-        {
-            string status = String.Empty;
-            string message = String.Empty;
-            string data = String.Empty;
-            string jsonString = string.Empty;
-
-            try
-            {
-
-                if (pokeLife.life < 0)
-                {
-                    var myJson = new
-                    {
-                        status = "error",
-                        message = "Error modifying Pokemon life"
-                    };
-
-                    jsonString = JsonSerializer.Serialize(myJson);
-                    return StatusCode(StatusCodes.Status400BadRequest, jsonString);
-                }
-
-                else
-                {
-                    playerBatalla.Pokemon.life = pokeLife.life;
-
-                    var myJson = new
-                    {
-                        status = "success",
-                        message = "Pokemon life has been modified"
-                    };
-                    jsonString = JsonSerializer.Serialize(myJson);
-                    return StatusCode(StatusCodes.Status200OK, jsonString);
-                }
-
-
-            }
-
-            catch (Exception ex)
-            {
-                var myJson = new
-                {
-                    status = "error",
-                    message = "Error modifying Pokemon life"
-                };
-
-                jsonString = JsonSerializer.Serialize(myJson);
-                return StatusCode(StatusCodes.Status400BadRequest, jsonString);
-            }
-
-
-        }
+       
 
 
         /// <summary>
@@ -374,7 +296,6 @@ namespace PokemonAPI.Controllers
             string urlFinal = URLGIMNASIO + "info";
             HttpClient client = new HttpClient();
             string jsonString = string.Empty;
-
             var webRequest = new HttpRequestMessage(HttpMethod.Get, urlFinal)
             {
                 Content = null
@@ -384,14 +305,13 @@ namespace PokemonAPI.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-
+                
                 var myJson = new
                 {
                     status = "success",
-                    data = playerBatalla
+                    data = response.Content.ReadAsStringAsync().Result.Trim()
                 };
-                jsonString = JsonSerializer.Serialize(myJson);
-                return StatusCode(StatusCodes.Status200OK, jsonString);
+                return StatusCode(StatusCodes.Status200OK, myJson);
             }
 
             else
@@ -399,110 +319,12 @@ namespace PokemonAPI.Controllers
                 var myJson = new
                 {
                     status = "error",
-                    data = "Error getting pokemon info",
+                    data = response.Content.ReadAsStringAsync().Result.Trim()
                 };
 
-                jsonString = JsonSerializer.Serialize(myJson);
-                return StatusCode(StatusCodes.Status400BadRequest, jsonString);
+                return StatusCode(StatusCodes.Status400BadRequest, myJson);
             }
 
         }
-
-        /// <summary>
-        /// Start a new game.
-        /// </summary>
-        /// <returns>Get new game</returns>
-        /// <remarks>
-        /// </remarks>
-        /// <response code="200">Returns success state</response>
-        /// <response code="400">Error</response>
-        [Route("pokemon/iniciar-turno")]
-        [HttpPost]
-        public IActionResult IniciarTurno()
-        {
-            string urlFinal = URLGIMNASIO + "iniciar";
-            HttpClient client = new HttpClient();
-
-            string jsonString = string.Empty;
-            string message = String.Empty;
-
-            var webRequest = new HttpRequestMessage(HttpMethod.Post, urlFinal)
-            {
-                Content = null
-            };
-
-            var response = client.Send(webRequest);
-
-
-            var myJson = new
-            {
-                status = "success",
-                message = "Turn initialized successfully"
-            };
-            jsonString = JsonSerializer.Serialize(myJson);
-            return StatusCode(StatusCodes.Status200OK, jsonString);
-
-
-        }
-
-
-
-        /// <summary>
-        /// Finish a  game.
-        /// </summary>
-        /// <returns>Finish game</returns>
-        /// <remarks>
-        /// </remarks>
-        /// <response code="200">Returns success state</response>
-        /// <response code="400">Error</response>
-        [Route("pokemon/terminar-partida")]
-        [HttpPost]
-        public IActionResult TerminarPartida(Status status)
-        {
-            string jsonString = string.Empty;
-            string message = String.Empty;
-            if (playerBatalla == null)
-            {
-                var myJson = new
-                {
-                    status = "error",
-                    message = "Error reseting pokemon"
-                };
-                jsonString = JsonSerializer.Serialize(myJson);
-                return StatusCode(StatusCodes.Status400BadRequest, jsonString);
-            }
-
-            else
-            {
-                playerBatalla.State = status.Victory == false && playerBatalla.Pokemon.life == 0 ? EnumHelper.GetDescription(PokemonStatus.DERROTADO)
-                    : status.Victory == false && playerBatalla.Pokemon.life == 0 ? EnumHelper.GetDescription(PokemonStatus.DISPONIBLE)
-                    : EnumHelper.GetDescription(PokemonStatus.GANADOR);
-
-                try
-                {
-                    var myJson = new
-                    {
-                        status = "success",
-                        message = "Pokemon has been reset"
-                    };
-                    jsonString = JsonSerializer.Serialize(myJson);
-                    return StatusCode(StatusCodes.Status200OK, jsonString);
-                }
-
-                catch
-                {
-                    var myJson = new
-                    {
-                        status = "error",
-                        message = "Error reseting pokemon"
-                    };
-                    jsonString = JsonSerializer.Serialize(myJson);
-                    return StatusCode(StatusCodes.Status400BadRequest, jsonString);
-                }
-
-
-            }
-        }
-
     }
 }

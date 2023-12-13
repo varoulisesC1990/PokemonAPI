@@ -19,69 +19,6 @@ namespace PokemonAPI.Controllers.Tests
     [TestClass()]
     public class PokemonControllerTests
     {
-        //[TestMethod(), TestCategory("Functional")]
-        //public void PokemonEstadoCorrecto()
-        //{
-        //    Pokemon pokemonCreado = new Pokemon();
-        //    pokemonCreado.Name = "Juan";
-        //    pokemonCreado.Type = "Agua";
-        //    pokemonCreado.Life = 100;
-
-        //    PokemonController controller = new PokemonController();
-        //    controller.Iniciar(pokemonCreado);
-
-        //    bool esCorrectoEstado = pokemonCreado.Status != EnumHelper.GetDescription(PokemonStatus.DISPONIBLE);
-
-        //    Assert.IsTrue(esCorrectoEstado);
-        //}
-
-
-        //[TestMethod(), TestCategory("Functional")]
-        //public void PokemonEstadoVivo()
-        //{
-        //    Pokemon pokemonCreado = new Pokemon();
-        //    pokemonCreado.Name = "Juan";
-        //    pokemonCreado.Type = "Agua";
-        //    pokemonCreado.Life = -2000;
-
-        //    PokemonController controller = new PokemonController();
-        //    controller.Iniciar(pokemonCreado);
-
-        //    bool esCorrectoEstado = pokemonCreado.Status == EnumHelper.GetDescription(PokemonStatus.EN_BATALLA);
-
-        //    Assert.IsTrue(esCorrectoEstado);
-        //}
-
-
-        //[TestMethod(), TestCategory("Functional")]
-        //public void PokemonCreadoRespuestaCorrecta()
-        //{
-        //    Pokemon pokemonCreado = new Pokemon();
-        //    pokemonCreado.Name = "Juan";
-        //    pokemonCreado.Type = "Agua";
-        //    pokemonCreado.Life = 200;
-
-        //    PokemonController controller = new PokemonController();
-        //    var result = controller.Iniciar(pokemonCreado) as ObjectResult;
-
-        //    Assert.AreEqual(StatusCodes.Status200OK, result.StatusCode);
-        //}
-
-
-        //[TestMethod(), TestCategory("Functional")]
-        //public void PokemonCreadoTipoIncorrecto()
-        //{
-        //    Pokemon pokemonCreado = new Pokemon();
-        //    pokemonCreado.Name = "Kadabara";
-        //    pokemonCreado.Type = "Lana";
-        //    pokemonCreado.Life = 200;
-
-        //    PokemonController controller = new PokemonController();
-        //    var result = controller.Iniciar(pokemonCreado) as ObjectResult;
-
-        //    Assert.AreEqual(StatusCodes.Status200OK, result.StatusCode);
-        //}
-
         [TestMethod(), TestCategory("Functional")]
         public void UnirseAPartida_WhenPokemonIsNull_ReturnsBadRequest()
         {
@@ -89,7 +26,7 @@ namespace PokemonAPI.Controllers.Tests
             var controller = new PokemonController(); // Create an instance of your controller
 
             // Act
-            var result = controller.IniciarGimnasio() as ObjectResult;
+            var result = controller.IniciarBatalla() as ObjectResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -105,7 +42,7 @@ namespace PokemonAPI.Controllers.Tests
             var controller = new PokemonController(); // Create an instance of your controller
                                                       // Set up the controller with a non-null value for PokemonBatalla (e.g., using a mock)
             // Act
-            var result = controller.IniciarGimnasio() as ObjectResult;
+            var result = controller.IniciarBatalla() as ObjectResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -306,7 +243,7 @@ namespace PokemonAPI.Controllers.Tests
             
 
             // Act
-            IActionResult result = controller.UnirseABatalla(body);
+            IActionResult result = controller.IniciarPokemon(body);
 
             // Assert
             var okResult = (OkObjectResult)result;
@@ -331,7 +268,7 @@ namespace PokemonAPI.Controllers.Tests
             var body = new JsonElement(); // You may need to mock this depending on your actual usage
 
             // Act
-            IActionResult result = controller.UnirseABatalla(body);
+            IActionResult result = controller.IniciarPokemon(body);
 
             
             var badRequestResult = (BadRequestObjectResult)result;
